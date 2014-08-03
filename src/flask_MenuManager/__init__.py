@@ -25,6 +25,7 @@
 """
 
 import flask
+from flask._compat import PY2
 from werkzeug import local
 
 
@@ -38,7 +39,20 @@ class MenuManager(object):
         app.extensions['MenuManager'] = MenuContext()
         app.context_processor(lambda: {'menu_context': menu_context})
 
+if PY2:
+    def implements_dict_iteration(cls):
+        cls.iterkeys = cls.keys
+        cls.itervalues = cls.values
+        cls.iteritems = cls.items
+        cls.keys = lambda x: list(x.iterkeys())
+        cls.values = lambda x: list(x.itervalues())
+        cls.items = lambda x: list(x.iteritems())
+        return cls
+else:
+    implements_dict_iteration = lambda x: x
 
+
+@implements_dict_iteration
 class SortedDict(dict):
     def keys(self):
         return [k for o, k in sorted([(v.order, k)

@@ -90,7 +90,7 @@ class MenuEntry(object):
         self.path = path
         self.name = name
         self.order = order
-        self.endpoint_fn = lambda: values if values else None
+        self.endpoint_fn = lambda: values if values is not None else {}
         self.active_fn = active_fn
         self.hidden_fn = hidden_fn
 
@@ -159,7 +159,7 @@ class MenuItem(SortedDict):
             if self.generated_fn not in flask.request.zzzz:
                 flask.request.zzzz[self.generated_fn] = self.generated_fn()
             for me in flask.request.zzzz[self.generated_fn]:
-                yield me.path[1:], me.as_menu_item(flask.request.endpoint)
+                yield me.path[1:], me.as_menu_item(self.endpoint)
 
     def __getitem__(self, path):
         for k, v in self.iteritems():

@@ -46,7 +46,7 @@ class ToxCommand(TestCommand):
 setup(
     name='flask-MenuManager',
     version='1.0',
-    url='https://svn.apache.org/repos/asf/labs/panopticon/',
+    url='https://github.com/maguro/flask-MenuManager/',
     license='Apache License (http://www.apache.org/licenses/LICENSE-2.0)',
     author='Alan Cabrera',
     author_email='adc@toolazydogs.com',
